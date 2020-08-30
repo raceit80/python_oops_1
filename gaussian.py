@@ -1,3 +1,4 @@
+import math
 class Gaussian():
     """ Gaussian distribution class for calculating and 
     visualizing a Gaussian distribution.
@@ -17,6 +18,30 @@ class Gaussian():
         self.stdev = sigma
         self.data = []  #this is an empty list for now to hold the data
             
+
+    def calculate_mean(self):
+        mean = 1.00 * sum(self.data) / len(self.data)
+        self.mean = mean
+        return mean
+
+
+
+    def calculate_stdev(self, sample=True):
+        if sample:
+            n = len(self.data) - 1 #length or sample
+        else:
+            n = len(self.data) #length for population
+           
+        mean = self.mean
+        sigma = 0
+
+        for data in self.data:
+            sigma+=(data-mean)**2
+        sigma = math.sqrt(sigma/n)
+
+        self.stdev = sigma
+        return sigma
+
     def read_data_file(self, filepath, sample=True):
         """Function to read in data from a txt file. The txt file should have
         one number (float) per line. The numbers are stored in the data attribute. 
@@ -31,38 +56,20 @@ class Gaussian():
         """
         with open(filepath) as file:
             data_list = []
-            line = file.readline()
-            while line:
-                data_list.append(int(line))
-                line = file.readline()
+            count = len(open(filepath).readlines(  ))
+
+            while count>0:
+                line = float(str(file.readline().strip("\n")))
+                data_list.append(line)
+                count-=1
+                
+            file.close()
             self.data = data_list
-            mean = self.calculate_mean()
-            stdev = self.calculate_stdev(sample)
+            self.mean = self.calculate_mean()
+            self.stdev = self.calculate_stdev(sample)
             
-            
-        def calculate_mean(self):
-            mean = 1.00 * sum(self.data) / len(self.data)
-            self.mean = mean
-            return mean
 
 
-
-        def calculate_stdev(self, sample=True):
-            if sample:
-                n = len(self.data) - 1 #length or sample
-            else:
-                n = len(self.data) #length for population
-           
-            mean = self.mean
-            sigma = 0
-
-            for data in self.data:
-                sigma+=(data-mean)**2
-            sigma = math.sqrt(sigma/n)
-
-            self.stdev = sigma
-            return sigma
-            
 
 
 
