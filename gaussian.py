@@ -1,4 +1,5 @@
 import math
+import matplotlib.pyplot as plt
 class Gaussian():
     """ Gaussian distribution class for calculating and 
     visualizing a Gaussian distribution.
@@ -17,6 +18,17 @@ class Gaussian():
         self.mean = mu
         self.stdev = sigma
         self.data = []  #this is an empty list for now to hold the data
+
+    
+    def __add__(self, other):
+        result = Gaussian()
+        result.mean = self.mean + other.mean
+        result.stdev = math.sqrt(self.stdev**2 + other.stdev**2)
+        return result
+
+
+    def __repr__(self):
+        return "mean {}, standard deviation {}".format(self.mean, self.stdev)
             
 
     def calculate_mean(self):
@@ -67,14 +79,48 @@ class Gaussian():
             self.data = data_list
             self.mean = self.calculate_mean()
             self.stdev = self.calculate_stdev(sample)
-            
 
+    def plot_histogram(self):
+        plt.hist(self.data)
+        plt.xlabel('Weight of males in USA')
+        plt.ylabel('Count')
+        plt.savefig('histogram.png')
+        plt.show()
 
+    def pdf(self, x):
+        mean = self.mean
+        stdev = self.stdev
+        pdf = (1 /(2*(math.pi)* stdev**2)**0.5 ) * math.exp(-1 * (x-mean)**2 / 2*stdev**2) * 1.00000
+        return pdf
 
+    def plot_histogram_pdf(self, n_spaces=50):
+        mu = self.mean
+        sigma = self.stdev
 
+        min_value = min(self.data)
+        max_value = max(self.data)
 
+        interval = 1.0 * (max_value-min_value)/n_spaces
 
+        x = []
+        y = []
 
+        for i in range(n_spaces):
+            tmp = min_value + interval * i
+            x.append(tmp)
+            y.append(self.pdf(tmp))
+        
+        # make the plots
+        fig, axes = plt.subplots(2,sharex=True)
+        fig.subplots_adjust(hspace=.5)
+        axes[0].hist(self.data, density=True)
+        axes[0].set_title('Normed Histogram of Data')
+        axes[0].set_ylabel('Density')
 
+        axes[1].plot(x, y)
+        axes[1].set_title('Normal Distribution for \n Sample Mean and Sample Standard Deviation')
+        axes[0].set_ylabel('Density')
+        plt.savefig('pdf_histogram.png')
+        plt.show()
 
-
+        return x, y
