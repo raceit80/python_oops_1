@@ -1,7 +1,7 @@
 # Unit tests to check your solution
 import math
 import matplotlib.pyplot as plt
-from gaussian import Gaussian
+from gaussiandistribution import Gaussian
 import unittest
 
 class TestGaussianClass(unittest.TestCase):

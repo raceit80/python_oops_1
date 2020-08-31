@@ -84,7 +84,7 @@ class Gaussian():
         plt.hist(self.data)
         plt.xlabel('Weight of males in USA')
         plt.ylabel('Count')
-        plt.savefig('histogram.png')
+        plt.savefig('data/results/histogram.png')
         plt.show()
 
     def pdf(self, x):
@@ -120,7 +120,7 @@ class Gaussian():
         axes[1].plot(x, y)
         axes[1].set_title('Normal Distribution for \n Sample Mean and Sample Standard Deviation')
         axes[0].set_ylabel('Density')
-        plt.savefig('pdf_histogram.png')
+        plt.savefig('data/results/pdf_histogram.png')
         plt.show()
 
         return x, y

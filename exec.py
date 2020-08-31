@@ -1,6 +1,6 @@
 import math
 import matplotlib.pyplot as plt
-from gaussian import Gaussian
+from gaussiandistribution import Gaussian
 
 
 filepath = 'data/sample_weights.txt'
